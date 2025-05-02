@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 17:26:28 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/01 21:33:49 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/02 15:32:47 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,40 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void	*my_turn(void *walo)
+
+int x = 0;
+
+pthread_mutex_t mutex;
+
+void	*my_routine(void *walo)
 {
-    int i = 1;
-	while (1)
+	for (int i = 0; i < 1000000; i++)
 	{
-		sleep(1);
-		printf("[%d] my turn \n", i);
-        i++;
-        if (i == 5)
-            break ;        
+		pthread_mutex_lock(&mutex);
+		x++;
+		pthread_mutex_unlock(&mutex);
 	}
-	return (NULL);
-}
-void	your_turn(void)
-{
-    int i = 1;
-	while (1)
-	{
-		sleep(1);
-		printf("[%d] your turn \n", i);
-        i++;
-	}
+	return (NULL); 
 }
 
 int	main(void)
 {
-	pthread_t	new_thread;
+	pthread_t	new_thread[4];
 
-	pthread_create(&new_thread, NULL, my_turn, NULL);
-	your_turn();
+	pthread_mutex_init(&mutex, NULL);
+
+	for (int i = 0; i < 4; i++)
+	{
+		pthread_create(&new_thread[i], NULL, &my_routine, NULL);
+		printf("Thread %d created\n", i + 1);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		pthread_join(new_thread[i], NULL);
+		printf("Thread %d joined\n", i + 1);
+	}
+	
+	printf("All threads are joined\n");
+	pthread_mutex_destroy(&mutex);
+	printf("x = %d\n", x);
 }

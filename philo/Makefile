@@ -1,6 +1,7 @@
 NAME = philo
 
 SRCS = main.c \
+	   helper-functions/custom_error.c \
 
 OBJS = $(SRCS:.c=.o)
 

@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   custom_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 16:58:22 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/02 12:47:55 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/02 12:41:37 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/02 12:49:35 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philosophers.h"
+#include "../includes/philosophers.h"
 
-int	main(int ac, char **av)
+void	custom_error(char *err_msg)
 {
-    (void)av;
-	if (ac != 6)
-		custom_error("Error: Missing argument ==> [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]\n");
-    
+	int i;
+	i = 0;
+	while (err_msg[i])
+	{
+		write(2, &err_msg[i], 1);
+		i++;
+	}
+	exit(EXIT_FAILURE);
 }
