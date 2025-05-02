@@ -6,7 +6,14 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:58:22 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/01 16:58:23 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/02 12:27:32 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/philosophers.h"
+
+int	main(int ac, char **av)
+{
+	(void)ac;
+	(void)av;
+}
