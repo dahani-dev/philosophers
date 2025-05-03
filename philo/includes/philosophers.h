@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/02 12:48:39 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/02 21:44:34 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_shared_data	t_shared_data;
 typedef struct s_philosopher
@@ -44,5 +45,7 @@ typedef struct s_shared_data
 }								t_shared_data;
 
 void	custom_error(char *err_msg);
+void init_data(t_shared_data *data, int ac, char **av);
+int	ft_atoi(const char *str);
 
 #endif
