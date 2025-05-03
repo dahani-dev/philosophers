@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_data.c                                        :+:      :+:    :+:   */
+/*   init_shared_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:47:53 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/02 21:42:45 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/03 16:03:19 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void init_data(t_shared_data *data, int ac, char **av)
+void init_shared_data(t_shared_data *data, int ac, char **av)
 {
+    int i;
+
+    i = 0;
     data->num_philosophers = ft_atoi(av[1]);
     data->time_to_die = ft_atoi(av[2]);
     data->time_to_eat = ft_atoi(av[3]);
@@ -24,4 +27,11 @@ void init_data(t_shared_data *data, int ac, char **av)
     else
         data->num_of_times_each_philosopher_must_eat = -1;
     data->someone_died = 0;
+    data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philosophers);
+	i = 0;
+	while (i < data->num_philosophers)
+	{
+		pthread_mutex_init(&data->forks[i], NULL);
+		i++;
+	}
 }

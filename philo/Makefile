@@ -2,7 +2,8 @@ NAME = philo
 
 SRCS = main.c \
 	   helper-functions/custom_error.c \
-	   helper-functions/init_data.c \
+	   helper-functions/init_shared_data.c \
+	   helper-functions/init_philosophers.c \
 	   helper-functions/ft_atoi.c \
 
 OBJS = $(SRCS:.c=.o)
