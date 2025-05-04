@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/03 16:01:43 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/03 18:30:13 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 typedef struct s_shared_data	t_shared_data;
@@ -49,5 +50,8 @@ void							init_shared_data(t_shared_data *data, int ac,
 									char **av);
 void							init_philosophers(t_shared_data *data);
 int								ft_atoi(const char *str);
+void							*routine(void *arg);
+void							safe_print(t_philosopher *philo, char *msg);
+long long						get_time_ms(void);
 
 #endif
