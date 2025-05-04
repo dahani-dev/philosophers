@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:58:22 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/03 16:14:22 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/04 20:28:02 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,22 @@ int	main(int ac, char **av)
 	i = 0;
 	while (i < shared_data.num_philosophers)
 	{
-		printf("id of philo: %d\n	left fork: %p\n	left fork: %p\n",
-			shared_data.philosopher[i].id, shared_data.philosopher->left_fork,
-			shared_data.philosopher->right_fork);
+		pthread_create(&shared_data.philosopher[i].thread, NULL, routine, &shared_data.philosopher[i]);
 		i++;
 	}
+	i = 0;
+	while (i < shared_data.num_philosophers)
+	{
+		pthread_join(shared_data.philosopher[i].thread, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < shared_data.num_philosophers)
+	{
+		pthread_mutex_destroy(&shared_data.forks[i]);
+		i++;
+	}
+	free(shared_data.forks);
+	free(shared_data.philosopher);
+	pthread_mutex_destroy(&shared_data.print_mutex);
 }
