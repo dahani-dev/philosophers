@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 15:50:48 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/03 16:00:36 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/04 21:36:34 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	init_philosophers(t_shared_data *data)
 {
 	int i;
 
-	i = 0;
 	data->philosopher = malloc(sizeof(t_philosopher) * data->num_philosophers);
+	if (!data->philosopher)
+		return ;
+	i = 0;
 	while (i < data->num_philosophers)
 	{
 		data->philosopher[i].id = i + 1;

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:58:22 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 20:28:02 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:38:47 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int ac, char **av)
 {
 	t_shared_data	shared_data;
 	int				i;
+	pthread_t monitor_thread;
 
 	if (ac != 5 && ac != 6)
 		custom_error("Error: Missing argument ==> [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]\n");
@@ -27,12 +28,14 @@ int	main(int ac, char **av)
 		pthread_create(&shared_data.philosopher[i].thread, NULL, routine, &shared_data.philosopher[i]);
 		i++;
 	}
+	pthread_create(&monitor_thread, NULL, monitor_routine, &shared_data);
 	i = 0;
 	while (i < shared_data.num_philosophers)
 	{
 		pthread_join(shared_data.philosopher[i].thread, NULL);
 		i++;
 	}
+	pthread_join(monitor_thread, NULL);
 	i = 0;
 	while (i < shared_data.num_philosophers)
 	{
@@ -42,4 +45,6 @@ int	main(int ac, char **av)
 	free(shared_data.forks);
 	free(shared_data.philosopher);
 	pthread_mutex_destroy(&shared_data.print_mutex);
+	pthread_mutex_destroy(&shared_data.death_lock);
+	return (0);
 }

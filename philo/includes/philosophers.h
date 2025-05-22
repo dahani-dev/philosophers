@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/03 18:30:13 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:38:15 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_shared_data
 	long long					start_time;
 	pthread_mutex_t				print_mutex;
 	pthread_mutex_t				*forks;
+	pthread_mutex_t				death_lock;
 	t_philosopher				*philosopher;
 }								t_shared_data;
 
@@ -53,5 +54,6 @@ int								ft_atoi(const char *str);
 void							*routine(void *arg);
 void							safe_print(t_philosopher *philo, char *msg);
 long long						get_time_ms(void);
+void							*monitor_routine(void *arg);
 
 #endif

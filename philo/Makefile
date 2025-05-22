@@ -8,11 +8,12 @@ SRCS = main.c \
 	   helper-functions/routine.c \
 	   helper-functions/safe_print.c \
 	   helper-functions/get_time_ms.c \
+	   helper-functions/monitor_routine.c \
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 RM = rm -f
 
 %.o: %.c
