@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/22 10:50:11 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:17:01 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_shared_data
 }								t_shared_data;
 
 void							custom_error(char *err_msg);
-void							init_shared_data(t_shared_data *data, int ac,
+int								init_shared_data(t_shared_data *data, int ac,
 									char **av);
 void							init_philosophers(t_shared_data *data);
 int								ft_atoi(const char *str);
