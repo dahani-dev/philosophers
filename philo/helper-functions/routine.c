@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:22:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 18:25:03 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/25 12:10:35 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	philo_think(t_philosopher *philo)
 }
 void	philo_eat(t_philosopher *philo)
 {
-	if (philo->id % 2 != 0)
-		usleep(100);
 	pthread_mutex_lock(philo->right_fork);
 	safe_print(philo, "has taken a fork");
 	pthread_mutex_lock(philo->left_fork);

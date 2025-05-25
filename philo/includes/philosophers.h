@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/24 15:17:01 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/25 11:59:30 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_shared_data
 	long long					start_time;
 	pthread_mutex_t				print_mutex;
 	pthread_mutex_t				*forks;
-	pthread_mutex_t				death_lock;
+	pthread_mutex_t				monitor_mutex;
 	t_philosopher				*philosopher;
 }								t_shared_data;
 

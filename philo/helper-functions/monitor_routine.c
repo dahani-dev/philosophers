@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:09:10 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 18:44:01 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/25 12:11:45 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,18 @@ void	*monitor_routine(void *arg)
 		i = 0;
 		while (i < data->num_philosophers)
 		{
-			// pthread_mutex_lock(&data->print_mutex);
-			// pthread_mutex_lock(&data->philosopher[i].);
-			if (data->time_to_die < get_time_ms()
-				- data->philosopher[i].last_meal_time)
+			pthread_mutex_lock(&data->monitor_mutex);
+			if (get_time_ms() - data->philosopher[i].last_meal_time > data->time_to_die)
 			{
-				pthread_mutex_lock(&data->death_lock);
+				safe_print(&data->philosopher[i], "is dead\n");
 				data->someone_died = 1;
-				printf("Philosopher: %d Runnig time: %lld is died\n",
-					data->philosopher->id, get_time_ms() - data->start_time);
-				pthread_mutex_unlock(&data->death_lock);
+				pthread_mutex_unlock(&data->monitor_mutex);
 				return (NULL);
+				// break ;
 			}
-			// pthread_mutex_unlock(&data->print_mutex);
+			pthread_mutex_unlock(&data->monitor_mutex);
 			i++;
 		}
-		usleep(100);
 	}
 	return (NULL);
 }
