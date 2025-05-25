@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 15:50:48 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 21:36:34 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/25 15:58:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_philosophers(t_shared_data *data)
 	{
 		data->philosopher[i].id = i + 1;
 		data->philosopher[i].meals_eaten = 0;
-		data->philosopher[i].last_meal_time = 0;
+		data->philosopher[i].last_meal_time = data->start_time;
 		data->philosopher[i].left_fork = &data->forks[i];
 		data->philosopher[i].right_fork = &data->forks[(i + 1)
 			% data->num_philosophers];

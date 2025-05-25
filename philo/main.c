@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:58:22 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/25 11:59:49 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/25 15:47:44 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ int	main(int ac, char **av)
 	free(shared_data.philosopher);
 	pthread_mutex_destroy(&shared_data.print_mutex);
 	pthread_mutex_destroy(&shared_data.monitor_mutex);
+	pthread_mutex_destroy(&shared_data.time_mutex);
 	return (0);
 }
