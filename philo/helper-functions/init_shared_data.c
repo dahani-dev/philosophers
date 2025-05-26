@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:47:53 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/25 16:05:18 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/25 19:47:08 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,10 @@ int	init_shared_data(t_shared_data *data, int ac, char **av)
 		return (0);
 	data->someone_died = 0;
 	data->start_time = get_time_ms();
-	
-
-
-	printf("start time: %lld\n", data->start_time);
-
-
-	
 	pthread_mutex_init(&data->print_mutex, NULL);
 	pthread_mutex_init(&data->monitor_mutex, NULL);
 	pthread_mutex_init(&data->time_mutex, NULL);
+	pthread_mutex_init(&data->meals_checker_mutex, NULL);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philosophers);
 	if (!data->forks)
 		return (0);
