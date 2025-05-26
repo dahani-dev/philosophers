@@ -9,6 +9,7 @@ SRCS = main.c \
 	   helper-functions/safe_print.c \
 	   helper-functions/get_time_ms.c \
 	   helper-functions/monitor_routine.c \
+	   helper-functions/safe_usleep.c \
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/25 19:39:41 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 10:49:19 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void							*routine(void *arg);
 void							safe_print(t_philosopher *philo, char *msg);
 long long						get_time_ms(void);
 void							*monitor_routine(void *arg);
+void							safe_usleep(t_philosopher *philo, int time);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:22:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/25 20:54:21 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 10:48:41 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	philo_eat(t_philosopher *philo)
 	philo->last_meal_time = get_time_ms();
 	pthread_mutex_unlock(&philo->shared_data->time_mutex);
 	philo->meals_eaten++;
-	usleep(philo->shared_data->time_to_eat * 1000);
+	safe_usleep(philo, philo->shared_data->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
