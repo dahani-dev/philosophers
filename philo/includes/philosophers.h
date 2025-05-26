@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/26 10:49:19 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:34:37 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void							custom_error(char *err_msg);
 int								init_shared_data(t_shared_data *data, int ac,
 									char **av);
 void							init_philosophers(t_shared_data *data);
-int								ft_atoi(const char *str);
+int								ft_atoi(char *str);
 void							*routine(void *arg);
 void							safe_print(t_philosopher *philo, char *msg);
 long long						get_time_ms(void);
