@@ -6,21 +6,21 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:22:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/26 11:04:03 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:40:43 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	philo_think(t_philosopher *philo)
+static void	philo_think(t_philosopher *philo)
 {
 	safe_print(philo, "is thinking");
 }
-void	philo_eat(t_philosopher *philo)
+static void	philo_eat(t_philosopher *philo)
 {
 	if (philo->shared_data->num_philosophers == 1)
 	{
-		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork);
 		safe_print(philo, "has taken a fork");
 		safe_usleep(philo, philo->shared_data->time_to_die * 1000);
 		philo->shared_data->someone_died = 1;
@@ -29,9 +29,9 @@ void	philo_eat(t_philosopher *philo)
 	{
 		if (philo->id % 2 == 0)
 			usleep(1000);
-		pthread_mutex_lock(philo->right_fork);
-		safe_print(philo, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
+		safe_print(philo, "has taken a fork");
+		pthread_mutex_lock(philo->right_fork);
 		safe_print(philo, "has taken a fork");
 		safe_print(philo, "is eating");
 		pthread_mutex_lock(&philo->shared_data->time_mutex);
@@ -44,7 +44,7 @@ void	philo_eat(t_philosopher *philo)
 	}
 }
 
-void	philo_sleep(t_philosopher *philo)
+static void	philo_sleep(t_philosopher *philo)
 {
 	safe_print(philo, "is sleeping");
 	usleep(philo->shared_data->time_to_sleep * 1000);

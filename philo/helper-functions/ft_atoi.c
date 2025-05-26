@@ -6,52 +6,48 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:45:38 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/26 11:34:20 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:05:36 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static int	ft_atoi_process(char *str, int i, long *result, int *sign_counter)
+static int	ft_isspace(char c)
 {
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			return (-1);
-		if (str[i] == '+')
-			(*sign_counter)++;
-		if (*sign_counter > 1)
-			return (-1);
-	}
-	else if (str[i] >= '0' && str[i] <= '9')
-	{
-		*result = *result * 10 + (str[i] - '0');
-		if (*result > 2147483647)
-			return (-1);
-	}
-	else
-		return (-1);
-	return (0);
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
+}
+
+static int	ft_isdigit(char c)
+{
+	return (c >= '0' && c <= '9');
 }
 
 int	ft_atoi(char *str)
 {
 	int		i;
-	int		sign;
 	long	result;
-	int		sign_counter;
 
 	i = 0;
-	sign = 1;
 	result = 0;
-	sign_counter = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] <= 32)
-			i++;
-		if (ft_atoi_process(str, i, &result, &sign_counter) == -1)
-			return (-1);
+	while (str[i] && ft_isspace(str[i]))
 		i++;
+	if (str[i] == '+')
+		i++;
+	else if (str[i] == '-')
+		return (-1);
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (!ft_isdigit(str[i]))
+		return (-1);
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		if (result > (2147483647 - (str[i] - '0')) / 10)
+			return (-1);
+		result = result * 10 + (str[i++] - '0');
 	}
-	return ((int)result * sign);
+	while (str[i])
+		if (!ft_isspace(str[i++]))
+			return (-1);
+	return ((int)result);
 }

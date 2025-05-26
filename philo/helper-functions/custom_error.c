@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:41:37 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/02 12:49:35 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 13:35:07 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,4 @@ void	custom_error(char *err_msg)
 		write(2, &err_msg[i], 1);
 		i++;
 	}
-	exit(EXIT_FAILURE);
 }
