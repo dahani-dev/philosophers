@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:22:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/26 10:48:41 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:04:03 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,30 @@ void	philo_think(t_philosopher *philo)
 }
 void	philo_eat(t_philosopher *philo)
 {
-	if (philo->id % 2 == 0)
-		usleep(1000);
-	pthread_mutex_lock(philo->right_fork);
-	safe_print(philo, "has taken a fork");
-	pthread_mutex_lock(philo->left_fork);
-	safe_print(philo, "has taken a fork");
-	safe_print(philo, "is eating");
-	pthread_mutex_lock(&philo->shared_data->time_mutex);
-	philo->last_meal_time = get_time_ms();
-	pthread_mutex_unlock(&philo->shared_data->time_mutex);
-	philo->meals_eaten++;
-	safe_usleep(philo, philo->shared_data->time_to_eat * 1000);
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	if (philo->shared_data->num_philosophers == 1)
+	{
+		pthread_mutex_lock(philo->right_fork);
+		safe_print(philo, "has taken a fork");
+		safe_usleep(philo, philo->shared_data->time_to_die * 1000);
+		philo->shared_data->someone_died = 1;
+	}
+	else
+	{
+		if (philo->id % 2 == 0)
+			usleep(1000);
+		pthread_mutex_lock(philo->right_fork);
+		safe_print(philo, "has taken a fork");
+		pthread_mutex_lock(philo->left_fork);
+		safe_print(philo, "has taken a fork");
+		safe_print(philo, "is eating");
+		pthread_mutex_lock(&philo->shared_data->time_mutex);
+		philo->last_meal_time = get_time_ms();
+		pthread_mutex_unlock(&philo->shared_data->time_mutex);
+		philo->meals_eaten++;
+		safe_usleep(philo, philo->shared_data->time_to_eat * 1000);
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+	}
 }
 
 void	philo_sleep(t_philosopher *philo)

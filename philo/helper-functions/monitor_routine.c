@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:09:10 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/25 20:00:51 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:07:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	*monitor_routine(void *arg)
 		pthread_mutex_lock(&data->meals_checker_mutex);
 		if (philosopher_meals_checker(data) == data->num_philosophers)
 		{
-			printf("rahom salaw\n");
+			printf("All philosophers must eat all their meals\n");
 			data->someone_died = 1;
 			pthread_mutex_unlock(&data->meals_checker_mutex);
 			return (NULL);
