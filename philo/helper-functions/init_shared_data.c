@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:47:53 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/26 17:12:54 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:50:40 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	init_shared_data(t_shared_data *data, int ac, char **av)
 	pthread_mutex_init(&data->monitor_mutex, NULL);
 	pthread_mutex_init(&data->time_mutex, NULL);
 	pthread_mutex_init(&data->meals_checker_mutex, NULL);
+	pthread_mutex_init(&data->meals_counter_mutex, NULL);
+	pthread_mutex_init(&data->meals_eaten_mutex, NULL);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philosophers);
 	if (!data->forks)
 		return (0);

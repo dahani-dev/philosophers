@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/26 11:34:37 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:50:33 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_shared_data
 	pthread_mutex_t				monitor_mutex;
 	pthread_mutex_t				time_mutex;
 	pthread_mutex_t				meals_checker_mutex;
+	pthread_mutex_t				meals_counter_mutex;
+	pthread_mutex_t				meals_eaten_mutex;
 	t_philosopher				*philosopher;
 }								t_shared_data;
 
