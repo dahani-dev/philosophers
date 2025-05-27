@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:58:22 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/27 10:50:37 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:19:11 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ int	main(int ac, char **av)
 	pthread_mutex_destroy(&shared_data.meals_checker_mutex);
 	pthread_mutex_destroy(&shared_data.meals_counter_mutex);
 	pthread_mutex_destroy(&shared_data.meals_eaten_mutex);
+	pthread_mutex_destroy(&shared_data.death_checker_mutex);
 	return (0);
 }

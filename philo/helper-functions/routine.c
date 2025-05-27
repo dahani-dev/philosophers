@@ -6,11 +6,23 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:22:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/27 10:52:19 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:29:03 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+int	death_checker(t_philosopher *philo)
+{
+	pthread_mutex_lock(&philo->shared_data->death_checker_mutex);
+	if (philo->shared_data->someone_died)
+	{
+		pthread_mutex_unlock(&philo->shared_data->death_checker_mutex);	
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->shared_data->death_checker_mutex);
+	return (0);	
+}
 
 static void	philo_think(t_philosopher *philo)
 {
@@ -22,10 +34,10 @@ static void	philo_eat(t_philosopher *philo)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		safe_print(philo, "has taken a fork");
-		safe_usleep(philo, philo->shared_data->time_to_die * 1000);
-		pthread_mutex_lock(&philo->shared_data->monitor_mutex);
+		safe_usleep(philo, philo->shared_data->time_to_die);
+		pthread_mutex_lock(&philo->shared_data->death_checker_mutex);
 		philo->shared_data->someone_died = 1;
-		pthread_mutex_unlock(&philo->shared_data->monitor_mutex);
+		pthread_mutex_unlock(&philo->shared_data->death_checker_mutex);
 		pthread_mutex_unlock(philo->left_fork);
 	}
 	else
@@ -33,16 +45,16 @@ static void	philo_eat(t_philosopher *philo)
 		if (philo->id % 2 == 0)
 		{
 			pthread_mutex_lock(philo->left_fork);
-			safe_print(philo, "has taken a fork");
 			pthread_mutex_lock(philo->right_fork);
+			safe_print(philo, "has taken a fork");
 			safe_print(philo, "has taken a fork");
 		}
 		else
 		{
 			usleep(1000);
 			pthread_mutex_lock(philo->right_fork);
-			safe_print(philo, "has taken a fork");
 			pthread_mutex_lock(philo->left_fork);
+			safe_print(philo, "has taken a fork");
 			safe_print(philo, "has taken a fork");
 		}
 		safe_print(philo, "is eating");
@@ -52,7 +64,7 @@ static void	philo_eat(t_philosopher *philo)
 		pthread_mutex_lock(&philo->shared_data->meals_eaten_mutex);
 		philo->meals_eaten++;
 		pthread_mutex_unlock(&philo->shared_data->meals_eaten_mutex);
-		safe_usleep(philo, philo->shared_data->time_to_eat * 1000);
+		safe_usleep(philo, philo->shared_data->time_to_eat);
 		if (philo->id % 2 == 0)
 		{
 			pthread_mutex_unlock(philo->left_fork);
@@ -70,7 +82,7 @@ static void	philo_eat(t_philosopher *philo)
 static void	philo_sleep(t_philosopher *philo)
 {
 	safe_print(philo, "is sleeping");
-	safe_usleep(philo, philo->shared_data->time_to_sleep * 1000);
+	safe_usleep(philo, philo->shared_data->time_to_sleep);
 }
 
 void	*routine(void *arg)
@@ -80,16 +92,14 @@ void	*routine(void *arg)
 	philo = (t_philosopher *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->shared_data->monitor_mutex);
-		if (philo->shared_data->someone_died)
-		{
-			pthread_mutex_unlock(&philo->shared_data->monitor_mutex);
+		if (death_checker(philo))
 			break ;
-		}
-		pthread_mutex_unlock(&philo->shared_data->monitor_mutex);
-		
 		philo_think(philo);
+		if (death_checker(philo))
+			break ;
 		philo_eat(philo);
+		if (death_checker(philo))
+			break ;
 		philo_sleep(philo);
 	}
 	return (NULL);

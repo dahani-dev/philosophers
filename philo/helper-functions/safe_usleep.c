@@ -6,27 +6,21 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:22:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/27 10:42:50 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:05:35 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	safe_usleep(t_philosopher *philo, int time)
+void	safe_usleep(t_philosopher *philo, long long time)
 {
-	int	divided_time;
+	long long	start_time;
 
-	divided_time = 0;
-	while (divided_time <= time)
+	start_time = get_time_ms();
+	while (!death_checker(philo) && (get_time_ms() - start_time) < time)
 	{
-		pthread_mutex_lock(&philo->shared_data->monitor_mutex);
-		if (philo->shared_data->someone_died)
-		{
-			pthread_mutex_unlock(&philo->shared_data->monitor_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->shared_data->monitor_mutex);
-		usleep(1000);
-		divided_time += 1000;
+		if (death_checker(philo))
+			return ;
+		usleep(50);
 	}
 }

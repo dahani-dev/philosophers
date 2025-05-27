@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:09:10 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/27 10:22:38 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:12:56 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static int philosopher_meals_checker(t_shared_data *data)
 	count = 0;
 	while (i < data->num_philosophers)
 	{
-		pthread_mutex_lock(&data->meals_checker_mutex);
+		pthread_mutex_lock(&data->meals_eaten_mutex);
 		meals_eaten = data->philosopher[i].meals_eaten;
-		pthread_mutex_unlock(&data->meals_checker_mutex);
+		pthread_mutex_unlock(&data->meals_eaten_mutex);
 		if (meals_eaten == data->num_of_times_each_philosopher_must_eat)
 		{
 			pthread_mutex_lock(&data->meals_counter_mutex);
 			count++;
-			pthread_mutex_lock(&data->meals_counter_mutex);
+			pthread_mutex_unlock(&data->meals_counter_mutex);
 		}
 		i++;
 	}
@@ -46,14 +46,8 @@ void	*monitor_routine(void *arg)
 	data = (t_shared_data *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&data->monitor_mutex);
-		if (data->someone_died)
-		{
-			pthread_mutex_unlock(&data->monitor_mutex);
+		if (death_checker(&data->philosopher[0]))
 			break ;
-		}
-		pthread_mutex_unlock(&data->monitor_mutex);
-		
 		i = 0;
 		while (i < data->num_philosophers)
 		{
@@ -63,13 +57,11 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&data->time_mutex);
 			if (current_time - last_meal_time >= data->time_to_die)
 			{
-				pthread_mutex_lock(&data->monitor_mutex);
-				if (!data->someone_died)
-				{
-					safe_print(&data->philosopher[i], "is dead\n");
-					data->someone_died = 1;	
-				}
-				pthread_mutex_unlock(&data->monitor_mutex);
+				pthread_mutex_lock(&data->death_checker_mutex);
+				data->someone_died = 1;
+				pthread_mutex_unlock(&data->death_checker_mutex);
+				printf("%lld philo: %d is dead\n", get_time_ms()
+						- data->start_time, data->philosopher[i].id);
 				return (NULL);
 			}
 			i++;
@@ -79,11 +71,8 @@ void	*monitor_routine(void *arg)
 			if (philosopher_meals_checker(data) >= data->num_philosophers)
 			{
 				pthread_mutex_lock(&data->monitor_mutex);
-				if (!data->someone_died)
-				{
-					printf("All philosophers must eat all their meals\n");
-					data->someone_died = 1;
-				}
+				printf("All philosophers must eat all their meals\n");
+				data->someone_died = 1;
 				pthread_mutex_unlock(&data->monitor_mutex);
 				return (NULL);
 			}
