@@ -1,20 +1,16 @@
-NAME = philo
+NAME = philo_bonus
 
-SRCS = main.c \
+SRCS = main_bonus.c \
 	   helper-functions/custom_error.c \
 	   helper-functions/ft_atoi.c \
 	   helper-functions/init_shared_data.c \
 	   helper-functions/init_philosophers.c \
-	   helper-functions/routine.c \
-	   helper-functions/safe_print.c \
 	   helper-functions/get_time_ms.c \
-	   helper-functions/monitor_routine.c \
-	   helper-functions/safe_usleep.c \
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g -O1
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c
