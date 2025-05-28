@@ -13,6 +13,7 @@ SRCS = main.c \
 	   helper-functions/create_threads_and_join.c \
 	   helper-functions/destroy_all_mutex.c \
 	   helper-functions/death_checker.c \
+	   helper-functions/unlock_forks.c \
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 10:36:52 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:14:00 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ int								death_checker(t_philosopher *philo);
 void							destroy_all_mutex(t_shared_data *data);
 void							create_threads_and_join(t_shared_data *data);
 int								death_checker(t_philosopher *philo);
+void							unlock_forks(t_philosopher *philo);
 
 #endif

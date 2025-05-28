@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:22:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 10:28:42 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:12:25 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,14 @@ static void	philo_eat(t_philosopher *philo)
 		philo->shared_data->someone_died = 1;
 		pthread_mutex_unlock(&philo->shared_data->death_checker_mutex);
 		pthread_mutex_unlock(philo->left_fork);
+		printf("%lld %d is dead\n", get_time_ms()
+			- philo->shared_data->start_time,
+			philo->shared_data->philosopher[0].id);
 	}
 	else
 	{
 		eating_process(philo);
-		if (philo->id % 2 == 0)
-		{
-			pthread_mutex_unlock(philo->left_fork);
-			pthread_mutex_unlock(philo->right_fork);
-		}
-		else
-		{
-			pthread_mutex_unlock(philo->right_fork);
-			pthread_mutex_unlock(philo->left_fork);
-		}
+		unlock_forks(philo);
 	}
 }
 
