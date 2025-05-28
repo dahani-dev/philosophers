@@ -1,2 +1,0 @@
-./philo 2 60 42222220 100
-case of one philo
