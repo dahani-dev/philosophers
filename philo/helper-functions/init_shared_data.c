@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:47:53 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 09:48:36 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/28 22:14:21 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	init_shared_data(t_shared_data *data, int ac, char **av)
 		return (0);
 	if ((ac == 6 && data->num_of_times_each_philosopher_must_eat == 0))
 	{
-		printf("No philosopher is required to eat any meals.\n");
+		custom_error("No philosopher is required to eat any meals.\n");
 		return (1337);
 	}
 	data->someone_died = 0;
