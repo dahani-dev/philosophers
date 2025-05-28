@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:09:10 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 10:35:09 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:13:06 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	monitor_check_death(t_shared_data *data)
 			pthread_mutex_lock(&data->death_checker_mutex);
 			data->someone_died = 1;
 			pthread_mutex_unlock(&data->death_checker_mutex);
-			printf("%lld philo: %d is dead\n", get_time_ms() - data->start_time,
+			printf("%lld %d is dead\n", get_time_ms() - data->start_time,
 				data->philosopher[i].id);
 			return (1);
 		}
@@ -85,6 +85,7 @@ void	*monitor_routine(void *arg)
 				return (NULL);
 			}
 		}
+		usleep(1000);
 	}
 	return (NULL);
 }
