@@ -10,11 +10,14 @@ SRCS = main.c \
 	   helper-functions/get_time_ms.c \
 	   helper-functions/monitor_routine.c \
 	   helper-functions/safe_usleep.c \
+	   helper-functions/create_threads_and_join.c \
+	   helper-functions/destroy_all_mutex.c \
+	   helper-functions/death_checker.c \
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g -O1
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread -g -O1
 RM = rm -f
 
 %.o: %.c

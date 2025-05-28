@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:58:22 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/27 15:19:11 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/28 09:36:58 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	main(int ac, char **av)
 {
 	t_shared_data	shared_data;
-	int				i;
 	int				init_result;
-	pthread_t		monitor_thread;
 
 	if (ac != 5 && ac != 6)
 	{
-		custom_error("Error: Missing argument ==> [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]\n");
+		custom_error("Error: Missing argument ==> [number_of_philosophers] "
+			"[time_to_die] [time_to_eat] [time_to_sleep] "
+			"[number_of_times_each_philosopher_must_eat]\n");
 		return (1);
 	}
 	init_result = init_shared_data(&shared_data, ac, av);
@@ -33,35 +33,9 @@ int	main(int ac, char **av)
 	else if (init_result == 1337)
 		return (0);
 	init_philosophers(&shared_data);
-	i = 0;
-	while (i < shared_data.num_philosophers)
-	{
-		pthread_create(&shared_data.philosopher[i].thread, NULL, &routine,
-			&shared_data.philosopher[i]);
-		i++;
-	}
-	pthread_create(&monitor_thread, NULL, &monitor_routine, &shared_data);
-	i = 0;
-	while (i < shared_data.num_philosophers)
-	{
-		pthread_join(shared_data.philosopher[i].thread, NULL);
-		i++;
-	}
-	pthread_join(monitor_thread, NULL);
-	i = 0;
-	while (i < shared_data.num_philosophers)
-	{
-		pthread_mutex_destroy(&shared_data.forks[i]);
-		i++;
-	}
+	create_threads_and_join(&shared_data);
+	destroy_all_mutex(&shared_data);
 	free(shared_data.forks);
 	free(shared_data.philosopher);
-	pthread_mutex_destroy(&shared_data.print_mutex);
-	pthread_mutex_destroy(&shared_data.monitor_mutex);
-	pthread_mutex_destroy(&shared_data.time_mutex);
-	pthread_mutex_destroy(&shared_data.meals_checker_mutex);
-	pthread_mutex_destroy(&shared_data.meals_counter_mutex);
-	pthread_mutex_destroy(&shared_data.meals_eaten_mutex);
-	pthread_mutex_destroy(&shared_data.death_checker_mutex);
 	return (0);
 }

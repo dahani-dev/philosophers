@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:59:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/27 13:14:57 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:36:52 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_shared_data
 	pthread_mutex_t				*forks;
 	pthread_mutex_t				monitor_mutex;
 	pthread_mutex_t				time_mutex;
-	pthread_mutex_t				meals_checker_mutex;
 	pthread_mutex_t				meals_counter_mutex;
 	pthread_mutex_t				meals_eaten_mutex;
 	pthread_mutex_t				death_checker_mutex;
@@ -60,7 +59,11 @@ void							*routine(void *arg);
 void							safe_print(t_philosopher *philo, char *msg);
 long long						get_time_ms(void);
 void							*monitor_routine(void *arg);
-void							safe_usleep(t_philosopher *philo, long long time);
+void							safe_usleep(t_philosopher *philo,
+									long long time);
+int								death_checker(t_philosopher *philo);
+void							destroy_all_mutex(t_shared_data *data);
+void							create_threads_and_join(t_shared_data *data);
 int								death_checker(t_philosopher *philo);
 
 #endif

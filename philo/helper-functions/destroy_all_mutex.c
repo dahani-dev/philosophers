@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   custom_error.c                                     :+:      :+:    :+:   */
+/*   destroy_all_mutex.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 12:41:37 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 09:40:28 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/28 09:19:32 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/28 09:44:05 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	custom_error(char *err_msg)
+void	destroy_all_mutex(t_shared_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (err_msg[i])
+	while (i < data->num_philosophers)
 	{
-		write(2, &err_msg[i], 1);
+		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->monitor_mutex);
+	pthread_mutex_destroy(&data->time_mutex);
+	pthread_mutex_destroy(&data->meals_counter_mutex);
+	pthread_mutex_destroy(&data->meals_eaten_mutex);
+	pthread_mutex_destroy(&data->death_checker_mutex);
 }

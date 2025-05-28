@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   custom_error.c                                     :+:      :+:    :+:   */
+/*   create_threads_and_join.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 12:41:37 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 09:40:28 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/28 09:27:49 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/28 09:35:35 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	custom_error(char *err_msg)
+void	create_threads_and_join(t_shared_data *data)
 {
-	int	i;
+	pthread_t	monitor_thread;
+	int			i;
 
 	i = 0;
-	while (err_msg[i])
+	while (i < data->num_philosophers)
 	{
-		write(2, &err_msg[i], 1);
+		pthread_create(&data->philosopher[i].thread, NULL, &routine,
+			&data->philosopher[i]);
 		i++;
 	}
+	pthread_create(&monitor_thread, NULL, &monitor_routine, data);
+	i = 0;
+	while (i < data->num_philosophers)
+	{
+		pthread_join(data->philosopher[i].thread, NULL);
+		i++;
+	}
+	pthread_join(monitor_thread, NULL);
 }

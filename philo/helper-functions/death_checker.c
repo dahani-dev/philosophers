@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   custom_error.c                                     :+:      :+:    :+:   */
+/*   death_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 12:41:37 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 09:40:28 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/28 10:21:20 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/28 10:21:46 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	custom_error(char *err_msg)
+int	death_checker(t_philosopher *philo)
 {
-	int	i;
-
-	i = 0;
-	while (err_msg[i])
+	pthread_mutex_lock(&philo->shared_data->death_checker_mutex);
+	if (philo->shared_data->someone_died)
 	{
-		write(2, &err_msg[i], 1);
-		i++;
+		pthread_mutex_unlock(&philo->shared_data->death_checker_mutex);
+		return (1);
 	}
+	pthread_mutex_unlock(&philo->shared_data->death_checker_mutex);
+	return (0);
 }
