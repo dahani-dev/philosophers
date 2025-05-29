@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:09:10 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/28 11:13:06 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:57:22 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	monitor_check_death(t_shared_data *data)
 		current_time = get_time_ms();
 		last_meal_time = data->philosopher[i].last_meal_time;
 		pthread_mutex_unlock(&data->time_mutex);
-		if (current_time - last_meal_time >= data->time_to_die)
+		if (current_time - last_meal_time >= data->time_to_die
+			&& data->num_philosophers > 1)
 		{
 			pthread_mutex_lock(&data->death_checker_mutex);
 			data->someone_died = 1;
