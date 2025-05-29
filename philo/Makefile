@@ -18,7 +18,7 @@ SRCS = main.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-pthread -fsanitize=thread -g -O1
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c

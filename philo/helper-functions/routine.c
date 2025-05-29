@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:22:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/29 11:55:28 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:30:44 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	eating_process(t_philosopher *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		safe_print(philo, "has taken a fork");
 		pthread_mutex_lock(philo->right_fork);
 		safe_print(philo, "has taken a fork");
 	}
@@ -30,7 +29,6 @@ static void	eating_process(t_philosopher *philo)
 	{
 		usleep(1000);
 		pthread_mutex_lock(philo->right_fork);
-		safe_print(philo, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
 		safe_print(philo, "has taken a fork");
 	}
@@ -49,15 +47,16 @@ static void	philo_eat(t_philosopher *philo)
 	if (philo->shared_data->num_philosophers == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		safe_print(philo, "has taken a fork");
 		safe_usleep(philo, philo->shared_data->time_to_die);
 		pthread_mutex_lock(&philo->shared_data->death_checker_mutex);
 		philo->shared_data->someone_died = 1;
 		pthread_mutex_unlock(&philo->shared_data->death_checker_mutex);
 		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_lock(&philo->shared_data->print_mutex);
 		printf("%lld %d is dead\n", get_time_ms()
 			- philo->shared_data->start_time,
 			philo->shared_data->philosopher[0].id);
+		pthread_mutex_unlock(&philo->shared_data->print_mutex);
 	}
 	else
 	{
