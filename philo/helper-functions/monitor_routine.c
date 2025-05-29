@@ -6,11 +6,28 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:09:10 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/29 18:23:24 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/29 19:37:33 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+static void	monitor_print(t_shared_data *data, int i, int mode)
+{
+	if (mode == 1)
+	{
+		pthread_mutex_lock(&data->print_mutex);
+		printf("%lld %d is dead\n", get_time_ms() - data->start_time,
+			data->philosopher[i].id);
+		pthread_mutex_unlock(&data->print_mutex);
+	}
+	else
+	{
+		pthread_mutex_lock(&data->print_mutex);
+		printf("All philosophers must eat all their meals\n");
+		pthread_mutex_unlock(&data->print_mutex);
+	}
+}
 
 static int	monitor_check_death(t_shared_data *data)
 {
@@ -31,10 +48,7 @@ static int	monitor_check_death(t_shared_data *data)
 			pthread_mutex_lock(&data->death_checker_mutex);
 			data->someone_died = 1;
 			pthread_mutex_unlock(&data->death_checker_mutex);
-			pthread_mutex_lock(&data->print_mutex);
-			printf("%lld %d is dead\n", get_time_ms() - data->start_time,
-				data->philosopher[i].id);
-			pthread_mutex_unlock(&data->print_mutex);
+			monitor_print(data, i, 1);
 			return (1);
 		}
 		i++;
@@ -82,9 +96,9 @@ void	*monitor_routine(void *arg)
 			if (philosopher_meals_checker(data) >= data->num_philosophers)
 			{
 				pthread_mutex_lock(&data->death_checker_mutex);
-				printf("All philosophers must eat all their meals\n");
 				data->someone_died = 1;
 				pthread_mutex_unlock(&data->death_checker_mutex);
+				monitor_print(data, 0, 0);
 				return (NULL);
 			}
 		}
